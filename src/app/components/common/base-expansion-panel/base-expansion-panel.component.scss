@@ -1,0 +1,35 @@
+@import 'src/styles/variables';
+
+.spinner-header {
+  padding-right: 2px;
+}
+
+.desktop-expansion-panel{
+  .simple-panel {
+    display: flex;
+    align-items: center;
+
+    ::ng-deep > div {
+      min-width: 20%;
+    }
+
+    ::ng-deep button {
+      margin-left: 8px;
+      margin-top: var(--wf1-gutter-space);
+
+      &:first-of-type {
+        margin-left: var(--wf1-gutter-space);
+      }
+    }
+
+    ::ng-deep .action-button-wrapper{
+      display: flex;
+      align-items: center;
+
+      .action-row-warning{
+        margin-top: var(--wf1-gutter-space);
+        margin-left: var(--wf1-gutter-space);
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<base-wrapper [errorState]="errorState">
+    <div class="wfrm-base-container page-width-container desktop">
+        <div class="wfrm-base personnel flex-y">
+            <div class="wf1-resources-header-bar flex-y-fixed">
+                <h1>Home</h1>
+                <div class="summary-buttons">
+                    <div class="spinner-header" *ngIf="isLoading">
+                        <mat-spinner [diameter]="30"></mat-spinner>
+                    </div>
+                    <!-- <button *ngIf="false && !isLoading && securityUtilService.hasScope(SCOPES_UI.CREATE_WILDFIRE_RESOURCE)" mat-raised-button color="primary" (click)="addPersonnel()" disabled>Create Personnel</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</base-wrapper>

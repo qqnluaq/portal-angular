@@ -1,0 +1,45 @@
+<mat-expansion-panel [expanded]="expanded" hideToggle="true" #panel [disabled]="panelDisabled"
+                     [class]="mobile?'mobile-expansion-panel':'desktop-expansion-panel'">
+    <mat-expansion-panel-header *ngIf="!simplePanel">
+        <div class="flex-x justify-space-between expansion-header">
+            <h2>{{titleLabel}}</h2>
+            <div class="spinner-header" *ngIf="isLoading">
+                <mat-spinner [diameter]="25"></mat-spinner>
+            </div>
+            <div class="spinner-header" *ngIf="!isLoading">
+                <button *ngIf="headerButtonLabel && !headerButtonHidden" mat-button mat-raised-button color="primary" (click)="$event.stopPropagation();headerActionButtonClicked()" [disabled]="headerButtonDisabled">{{headerButtonLabel}}</button>
+            </div>
+        </div>
+        <mat-panel-description *ngIf="!panelDisabled">
+            <mat-icon matTooltip="Expand" *ngIf="!panel.expanded">add</mat-icon>
+            <mat-icon matTooltip="Collapse" *ngIf="panel.expanded">remove</mat-icon>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <wfrm-base-error-panel [errorState]="errorState"></wfrm-base-error-panel>
+    <div class="wf1-expansion-panel-body {{simplePanel && !mobile?'simple-panel':''}}">
+        <ng-content></ng-content>
+        <div *ngIf="simplePanel && !mobile">
+            <div class="action-button-wrapper">
+                <button *ngIf="secondaryButtonLabel && !secondaryButtonHidden" mat-button mat-raised-button color="secondary" (click)="secondaryActionButtonClicked()" [disabled]="secondaryButtonDisabled">{{secondaryButtonLabel}}</button>
+                <button *ngIf="primaryButtonLabel && !primaryButtonHidden" mat-button mat-raised-button color="primary" (click)="primaryActionButtonClicked()" [disabled]="primaryButtonDisabled">{{primaryButtonLabel}}</button>
+                <div class="action-row-warning" *ngIf="warningMessage"><mat-icon [attr.alt]="warningMessage">warning</mat-icon><span tabindex="0">{{warningMessage}}</span></div>
+            </div>
+        </div>
+    </div>
+    <mat-action-row *ngIf="(!simplePanel || mobile) && ((primaryButtonLabel && !primaryButtonHidden) || secondaryButtonLabel && !secondaryButtonHidden)">
+        <div *ngIf="mobile">
+            <div class="action-button-wrapper">
+                <div class="action-row-warning" *ngIf="warningMessage"><mat-icon [attr.alt]="warningMessage">warning</mat-icon><span>{{warningMessage}}</span></div>
+                <button *ngIf="secondaryButtonLabel && !secondaryButtonHidden"  class="icon-button" (click)="secondaryActionButtonClicked()" [disabled]="secondaryButtonDisabled"><mat-icon>cancel</mat-icon><span>{{secondaryButtonLabel}}</span></button>
+                <button *ngIf="primaryButtonLabel && !primaryButtonHidden" class="icon-button" (click)="primaryActionButtonClicked()" [disabled]="primaryButtonDisabled"><mat-icon>save</mat-icon><span>{{primaryButtonLabel}}</span></button>
+            </div>
+        </div>
+        <div *ngIf="!mobile">
+            <div class="action-button-wrapper">
+                <div class="action-row-warning" *ngIf="warningMessage"><mat-icon [attr.alt]="warningMessage">warning</mat-icon><span tabindex="0">{{warningMessage}}</span></div>
+                <button *ngIf="secondaryButtonLabel && !secondaryButtonHidden" mat-button mat-raised-button color="secondary" (click)="secondaryActionButtonClicked()" [disabled]="secondaryButtonDisabled">{{secondaryButtonLabel}}</button>
+                <button *ngIf="primaryButtonLabel && !primaryButtonHidden" mat-button mat-raised-button color="primary" (click)="primaryActionButtonClicked()" [disabled]="primaryButtonDisabled">{{primaryButtonLabel}}</button>
+            </div>
+        </div>
+    </mat-action-row>
+</mat-expansion-panel>

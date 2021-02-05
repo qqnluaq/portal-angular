@@ -1,0 +1,68 @@
+<div class="app-container" [ngClass]="isMobileRes?'mobile':'desktop'">
+    <div *ngIf="!isMobileRes" class="user-summary">{{userSummary}}</div>
+    <div *ngIf="!isMobileRes" class="user-summary-org">Acting on behalf of: {{userOrgSummary}}</div>
+    <wf1-public-application-header headerLogoPath="assets/images/logo/bcwfservice-logo.png"
+                                   [headerItems]="isMobileRes?headerItemsMobile:headerItemsDesktop"></wf1-public-application-header>
+    <mat-sidenav-container *ngIf="isMobileRes" class="sidenav-horizontal">
+        <mat-sidenav #topnav mode="over" fixedInViewport="false" opened="false" disableClose="false" fullscreen>
+            <mat-nav-list class="list-horizontal">
+                <a mat-list-item *ngFor="let navItem of topNavItems"
+                   routerLinkActive="nav-item-active">
+                    <ng-container>
+                        <button [mat-menu-trigger-for]="navItemMenu">
+                            <mat-icon>{{navItem.icon}}</mat-icon>
+                        </button>
+                        <div *ngIf="navItem.badge > 0" class="navBadge" matBadgeColor="warn"
+                             matBadge="{{navItem.badge}}"></div>
+                        <mat-menu #navItemMenu="matMenu" xPosition="before" class="topnav-menu">
+                            <button *ngFor="let headerMenuItem of navItem.menuItems" mat-menu-item
+                                    (click)="navItem.callBackFunction()">
+                                <mat-icon *ngIf="headerMenuItem.icon">{{headerMenuItem.icon}}</mat-icon>
+                                <span>{{headerMenuItem.label}}</span>
+                            </button>
+                        </mat-menu>
+                    </ng-container>
+                </a>
+            </mat-nav-list>
+
+        </mat-sidenav>
+    </mat-sidenav-container>
+
+    <mat-sidenav-container [class]="isMobileRes?'wf1-sidenav mobile-sidenav':'wf1-sidenav desktop-sidenav'">
+        <mat-sidenav #sidenav [mode]="!isMobileRes?'side':'over'" fixedInViewport="false" [opened]="!isMobileRes"
+                     [disableClose]="!isMobileRes">
+            <div class="toolbar-panel width-auto" *ngIf="isMobileRes">
+                <div class="app-logo-and-title-drawer-div2">
+                    <img src="assets/images/logo/bcwfservice-logo2.png"
+                         class="img-fluid center-block logo" alt="Wildfire ONE">
+                </div>
+            </div>
+            <div class="toolbar-panel width-auto" *ngIf="isMobileRes">
+                <div class="app-logo-and-title-drawer-div">
+                    <span class="userDataLabelName">{{userNameText}}</span>
+                    <span class="userDataLabel">{{userIdText}}</span>
+                    <span class="userDataLabel">{{userOrgSummary}}</span>
+                </div>
+            </div>
+            <mat-nav-list>
+                <a mat-list-item *ngFor="let navItem of mainNavItems" [routerLink]="navItem.routerLink"
+                   [disabled]="navItem.disabled"
+                   [queryParams]="navItem.queryParams"
+                   routerLinkActive="nav-item-active" (click)="isMobileRes?sidenav.close():null;">
+                    <mat-icon *ngIf="navItem.svgIcon" class="color-sidenav-icon" [svgIcon]="navItem.svgIcon"></mat-icon>
+                    <mat-icon *ngIf="navItem.icon" class="color-sidenav-icon">{{navItem.icon}}</mat-icon>
+                    <span class="navLabel">{{navItem.label}}</span>
+                    <div *ngIf="navItem.badge > 0" class="navBadge" matBadgeColor="warn"
+                         matBadge="{{navItem.badge}}"></div>
+                </a>
+            </mat-nav-list>
+
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <wfrm-base-error-panel [errorState]="errorState"></wfrm-base-error-panel>
+            <ng-content></ng-content>
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
