@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {Router, RouterModule, Routes} from "@angular/router";
 import {ResourcesAuthGuard} from "./services/util/ResourcesAuthGuard";
+import {DeactivateGuard} from "./services/util/DeactivateGuard";
 import {UnauthorizedPageComponent} from "./components/unauthorized-page/unauthorized-page.component";
 import {ApplicationStateService} from "./services/application-state.service";
 import {ResourcesRoutes} from "./utils";

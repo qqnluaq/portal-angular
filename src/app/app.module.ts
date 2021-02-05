@@ -75,6 +75,8 @@ import { HomeComponentDesktop } from "./components/home/desktop/home.component.d
 import { HomeComponentMobile } from "./components/home/mobile/home.component.mobile";
 import { HomeContainerDesktop } from "./containers/home/home-container.component.desktop";
 import { HomeContainerMobile } from "./containers/home/home-container.component.mobile";
+import { CollectionComponent } from "./components/common/base-collection/collection.component";
+import { DeactivateGuard } from "./services/util/DeactivateGuard";
 
 
 /**
@@ -144,6 +146,7 @@ if (!environment.production || !environment.restrict_imports) {
 
         AppComponent,
         BaseWrapperComponent,
+        CollectionComponent,
         ErrorPageComponent,
 
         HomeComponentDesktop,
@@ -154,7 +157,7 @@ if (!environment.production || !environment.restrict_imports) {
         WarningPanelComponent,
         ErrorDialogComponent,
         UnsavedDialogComponent,
-        SignOutPageComponent,
+        SignOutPageComponent
     ],
     imports: [
         HttpClientModule,
