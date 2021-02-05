@@ -15,11 +15,11 @@
     }
   },
   "rest": {
-    "wfrm": "https://d1wfapi.vividsolutions.com/wfrm-resources-api",
-    "incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
-    "schedule": "https://d1wfapi.vividsolutions.com/wfrm-resource-schedule-api",
-    "classification": "https://d1wfapi.vividsolutions.com/wfrm-resource-classification-api",
-    "orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api"
+    "#wfrm": "https://d1wfapi.vividsolutions.com/wfrm-resources-api",
+    "#incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
+    "#schedule": "https://d1wfapi.vividsolutions.com/wfrm-resource-schedule-api",
+    "#classification": "https://d1wfapi.vividsolutions.com/wfrm-resource-classification-api",
+    "#orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api"
   },
   "webade": {
     "oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",

@@ -31,13 +31,10 @@
             ],
             "styles": [
               "src/styles/main.scss",
-              "node_modules/@busacca/ng-pick-datetime/assets/style/picker.scss",
-              "node_modules/multiple-select/dist/multiple-select.css"
+              "node_modules/@busacca/ng-pick-datetime/assets/style/picker.scss"
             ],
             "scripts": [
-              "node_modules/gsap/src/uncompressed/TweenMax.js",
               "node_modules/jquery/dist/jquery.slim.js",
-              "node_modules/multiple-select/dist/multiple-select.js",
               "src/assets/js/visualize.js/visualize.js"
             ]
           },

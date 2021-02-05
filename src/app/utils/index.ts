@@ -5,44 +5,15 @@ import {SortDirection} from "@wf1/core-ui";
 import * as moment from "moment";
 import {Moment, unitOfTime} from "moment";
 import * as momenttz from "moment-timezone";
-// import {vmGroup, vmGroupMember, vmPersonnel} from "../conversion/models";
 import {FormControl, Validators} from "@angular/forms";
-import {ResourceCommunicationRsrc, ResourceContactListRsrc, ResourceContactRsrc} from "@wf1/wfrm-resources-v2-api";
 import {SCOPES_UI} from "./scopes";
 
 export const CODE_TABLE_CACHE = {};
-// export let currentResource: vmPersonnel = null;
 
 export function getCodeTableCache() {
 
     return CODE_TABLE_CACHE;
 }
-
-// export function setWildfireResource(rsrc: vmPersonnel) {
-//     currentResource = rsrc;
-// }
-
-// export function getWildfireResource() {
-//     return currentResource;
-// }
-
-// export function getDefaultHomeFCCode() {
-//     if (currentResource) {
-//         return currentResource.fireCentreIdentifier;
-//     } else {
-//         return null;
-//     }
-// }
-
-
-// export function getDefaultHomeFZCode() {
-//     if (currentResource) {
-//         return currentResource.zoneIdentifier;
-//     } else {
-//         return null;
-//     }
-// }
-
 
 export const CONSTANTS = {
     NO_RECORDS_MESSAGE: "No records to display.",
@@ -592,23 +563,6 @@ export function validateDateFormControlAfter(fc1: FormControl, fc2: FormControl,
         }
         return true;
     }
-}
-
-export function getFilteredContacts(contacts: ResourceContactListRsrc, includeCommunicationMethodTypes?: string[], excludeCommunicationMethodTypes?: string[]) {
-    let contactListRsrc = contacts;
-
-    if (contactListRsrc.collection && contactListRsrc.collection.length > 0) {
-        contactListRsrc.collection = contactListRsrc.collection.filter(
-            (contact: ResourceContactRsrc) => {
-                return contact.communicationMethods.some((comm: ResourceCommunicationRsrc) => {
-                    let isIncluded = includeCommunicationMethodTypes && includeCommunicationMethodTypes.length ? includeCommunicationMethodTypes.includes(comm.communicationMethodTypeCode) : true;
-                    let isExcluded = excludeCommunicationMethodTypes && excludeCommunicationMethodTypes.length ? excludeCommunicationMethodTypes.includes(comm.communicationMethodTypeCode) : false;
-                    return isIncluded && !isExcluded;
-                });
-            }
-        );
-    }
-    return contactListRsrc;
 }
 
 

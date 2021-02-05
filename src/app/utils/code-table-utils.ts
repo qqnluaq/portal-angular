@@ -1,8 +1,6 @@
 import {CodeData, Option} from "../store/application/application.state";
-import {GroupTemplateRsrc} from "@wf1/wfrm-resources-v2-api";
 import {CONSTANTS, DATE_FORMATS, getCodeTableCache} from "./index";
 import * as moment from "moment";
-import {ResourceClassificationDefinitionRsrc} from "@wf1/wfrm-resource-classification-api";
 
 export const sortByDisplayOrder = (a: CodeData, b: CodeData) => a.displayOrder - b.displayOrder;
 
@@ -31,10 +29,6 @@ export function getCodeDataForCode(codeStr: string, options: (CodeData | Option)
 
 }
 
-// export function getShortDescriptionForCodeData(value: CodeData | Option) {
-//     return value ? value.shortDescription ? value.shortDescription : value.description : null;
-// }
-
 export function getDescriptionForCodeData(value: CodeData | Option) {
     return value ? value.description : null;
 }
@@ -42,10 +36,6 @@ export function getDescriptionForCodeData(value: CodeData | Option) {
 export function getDescriptionForCode(codeStr: string, options: (CodeData | Option)[]) {
     return getDescriptionForCodeData(getCodeDataForCode(codeStr, options));
 }
-
-// export function getShortDescriptionForCode(codeStr: string, options: (CodeData | Option)[]) {
-//     return getShortDescriptionForCodeData(getCodeDataForCode(codeStr, options));
-// }
 
 export function getCodeOptions(codeType: string): ((CodeData | Option)[]) {
     if (codeType == "YEARS") {
@@ -209,13 +199,4 @@ export function getAllocationOptions(selectedAvailabilityCode) {
     }
 }
 
-export function getGroupTemplates(): GroupTemplateRsrc[] {
-    let allTemplates = getCodeTableCache()['groupTemplates'];
-    return allTemplates;
-}
-
-export function getResourceFunctions(): ResourceClassificationDefinitionRsrc[] {
-    let plannedResourceClassificationNames = getCodeTableCache()['plannedResourceClassificationNames'];
-    return plannedResourceClassificationNames;
-}
 

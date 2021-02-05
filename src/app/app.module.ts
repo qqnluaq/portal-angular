@@ -1,26 +1,6 @@
 import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-// import {
-//     ApiModule as ResourcesV2APIServiceModule,
-//     Configuration as ResourcesV2APIServiceConfiguration
-// } from "@wf1/wfrm-resources-v2-api";
-// import {
-//     ApiModule as ScheduleAPIServiceModule,
-//     Configuration as ScheduleAPIServiceConfiguration
-// } from "@wf1/wfrm-resource-schedule-api";
-// import {
-//     ApiModule as ClassificationAPIServiceModule,
-//     Configuration as ClassificationAPIServiceConfiguration
-// } from "@wf1/wfrm-resource-classification-api";
-// import {
-//     ApiModule as IncidentsAPIServiceModule,
-//     Configuration as IncidentsAPIServiceConfiguration
-// } from "@wf1/incidents-rest-api";
-// import {
-//     ApiModule as OrgUnitAPIServiceModule,
-//     OrgUnitConfiguration as OrgUnitAPIServiceConfiguration
-// } from "@wf1/orgunit-rest-api";
 import {BrowserModule} from "@angular/platform-browser";
 import {ServiceWorkerModule} from "@angular/service-worker";
 import {EffectsModule} from "@ngrx/effects";
@@ -76,7 +56,6 @@ import {MatCardModule} from "@angular/material/card";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
-import {OWL_DATE_TIME_FORMATS, OwlDateTimeModule, OwlMomentDateTimeModule} from "@busacca/ng-pick-datetime";
 import {BaseExpansionPanelComponent} from "./components/common/base-expansion-panel/base-expansion-panel.component";
 import {WFSnackbarComponent} from "./components/common/snackbars/wf-snackbar.component";
 import {TimeMaskDirective} from "./directives/time-mask.directive";
@@ -178,11 +157,6 @@ if (!environment.production || !environment.restrict_imports) {
         SignOutPageComponent,
     ],
     imports: [
-        // ScheduleAPIServiceModule,
-        // ClassificationAPIServiceModule,
-        // ResourcesV2APIServiceModule,
-        // OrgUnitAPIServiceModule,
-        // IncidentsAPIServiceModule,
         HttpClientModule,
         DragDropModule,
         CdkTableModule,
@@ -216,8 +190,6 @@ if (!environment.production || !environment.restrict_imports) {
         MatProgressSpinnerModule,
         NgxTrimModule,
         NgxMaskModule.forRoot(),
-        OwlDateTimeModule,
-        OwlMomentDateTimeModule,
         ReactiveFormsModule,
         ScrollingModule,
         PublicApplicationHeaderModule,
@@ -247,7 +219,6 @@ if (!environment.production || !environment.restrict_imports) {
             multi: true,
             deps: [HttpHandler, Injector]
         },
-        {provide: OWL_DATE_TIME_FORMATS, useValue: DATE_FORMATS},
         {provide: RouteReuseStrategy, useClass: CustomReuseStrategy},
         {
             provide: HTTP_INTERCEPTORS,
@@ -262,6 +233,4 @@ if (!environment.production || !environment.restrict_imports) {
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-
-}
+export class AppModule {}
