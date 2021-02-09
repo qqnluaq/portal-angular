@@ -1,5 +1,4 @@
-import { ActiveIncidentsLayerConfig } from './map-layer-config/active-incidents.config'
-import { ReferenceLayerConfig } from './reference-layer-config'
+import { LayerConfig } from './layers'
 
 export function MapConfig(pref: any) {
 	return {
@@ -176,9 +175,6 @@ export function MapConfig(pref: any) {
 				]
 			}
 		],
-		layers: [
-			...ActiveIncidentsLayerConfig(pref),
-			...ReferenceLayerConfig(pref)
-		]
+		layers: LayerConfig( pref )
 	}
 };
