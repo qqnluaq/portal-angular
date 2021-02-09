@@ -30,7 +30,7 @@ import {CdkTableModule} from "@angular/cdk/table";
 import {appInitFn} from "./utils/app-initializer";
 import {AutoFocusDirective} from "./directives/auto-focus.directive";
 import {BaseDialogComponent} from "./components/dialogs/base-dialog/base-dialog.component";
-import {UpdateService} from "./services/update.service";
+// import {UpdateService} from "./services/update.service";
 import {SignOutPageComponent} from "./components/sign-out-page/sign-out-page.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -77,6 +77,12 @@ import { HomeContainerDesktop } from "./containers/home/home-container.component
 import { HomeContainerMobile } from "./containers/home/home-container.component.mobile";
 import { CollectionComponent } from "./components/common/base-collection/collection.component";
 import { DeactivateGuard } from "./services/util/DeactivateGuard";
+import { MapPageContainerDesktop } from "./containers/map-page/map-page-container.component.desktop";
+import { MapPageContainerMobile } from "./containers/map-page/map-page-container.component.mobile";
+import { MapPageComponentDesktop } from "./components/map-page/desktop/map-page.component.desktop";
+import { MapPageComponentMobile } from "./components/map-page/mobile/map-page.component.mobile";
+import { SERVICES } from "./services";
+import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
 
 
 /**
@@ -144,20 +150,27 @@ if (!environment.production || !environment.restrict_imports) {
         HomeContainerDesktop,
         HomeContainerMobile,
 
+        MapPageContainerDesktop,
+        MapPageContainerMobile,
+
         AppComponent,
         BaseWrapperComponent,
-        CollectionComponent,
+        // CollectionComponent,
         ErrorPageComponent,
 
         HomeComponentDesktop,
         HomeComponentMobile,
+
+        MapPageComponentDesktop,
+        MapPageComponentMobile,
 
         UnauthorizedPageComponent,
         ErrorPanelComponent,
         WarningPanelComponent,
         ErrorDialogComponent,
         UnsavedDialogComponent,
-        SignOutPageComponent
+        SignOutPageComponent,
+        WFMapContainerComponent
     ],
     imports: [
         HttpClientModule,
@@ -212,10 +225,11 @@ if (!environment.production || !environment.restrict_imports) {
         // providers have finished initializing.
         // See https://github.com/ngrx/platform/issues/931 for more information.
         provideBootstrapEffects(rootEffects),
-        UpdateService,
+        // UpdateService,
         AppConfigService,
         TokenService,
-        MapService,
+        // MapService,
+        ...SERVICES,
         {
             provide: APP_INITIALIZER,
             useFactory: appInitFn,

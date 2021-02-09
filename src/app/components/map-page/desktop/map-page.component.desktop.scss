@@ -1,0 +1,16 @@
+@import '../../../../styles/variables';
+
+:host {
+	height: 100%;
+	flex-grow: 1;
+}
+
+.map-column {
+	flex: 1;
+	height: 100%;
+	&.fill{
+		width:100vw;
+	}
+}
+
+

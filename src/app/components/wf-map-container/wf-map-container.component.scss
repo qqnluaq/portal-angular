@@ -1,0 +1,30 @@
+.smk-map-frame {
+    width: 100%;
+    height: 100%;
+    // background-color: red;
+}
+
+::ng-deep .smk-map-frame {
+    .smk-layers-panel .smk-panel { 
+        .smk-display .smk-item {
+            flex-wrap: wrap;
+            .smk-layer-title {
+                width: calc( 100% - 32px );
+            }
+        }
+        .smk-display.smk-inline-legend .smk-item {
+            .smk-layer-title {
+                width: calc( 100% - 60px );
+            }
+        }
+    }
+
+    .smk-overlay {
+        left: 20px !important;
+        // right: 20px !important;
+    }   
+
+    .smk-viewer .leaflet-control-container .leaflet-right {
+        // right: 15px;
+    }
+}

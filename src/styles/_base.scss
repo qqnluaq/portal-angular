@@ -258,22 +258,34 @@ mat-toolbar.mat-primary.wf1-public-application-header {
   }
 
   mat-sidenav-container {
-    flex: 1 1 auto;
+    // flex: 1 1 auto;
     overflow: unset;
+    position: absolute;
+    top: $wf1-public-app-header-height;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
     .mat-drawer-backdrop {
       position: fixed !important;
     }
 
     mat-sidenav {
-      min-width: 220px;
-      overflow-x: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 220px;
+
+      // min-width: 220px;
+      overflow: visible;
       background-color: $colour-sidenav-background;
-      position: fixed;
+      // position: fixed;
+
       border: none;
       z-index: 3;
-      top: $wf1-public-app-header-height;
-      max-width: 220px;
+      // top: $wf1-public-app-header-height;
+      // max-width: 220px;
       //.mat-list-item.nav-item-active{
       //  background: red;
       //}
@@ -315,8 +327,8 @@ mat-toolbar.mat-primary.wf1-public-application-header {
       position: relative;
       overflow: unset;
       background-color: white;
-      top: $wf1-public-app-header-height;
-      margin-left: 220px;
+      // top: $wf1-public-app-header-height;
+      // margin-left: 220px;
 
       #side-nav-toggle {
         width: var(--wf1-gutter-space);

@@ -1,0 +1,5 @@
+<base-wrapper [errorState]="errorState">
+    <div class="map-column bg-secondary">
+        <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"></wf-map-container>
+    </div>
+</base-wrapper>

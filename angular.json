@@ -27,15 +27,21 @@
               "src/assets",
               "src/dev-config",
               "src/manifest.json",
-              "src/refresh-token.html"
+              "src/refresh-token.html",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@qqnluaq/smk/dist/assets",
+                "output": "assets/smk/assets"
+              }
             ],
             "styles": [
               "src/styles/main.scss",
               "node_modules/@busacca/ng-pick-datetime/assets/style/picker.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.slim.js",
-              "src/assets/js/visualize.js/visualize.js"
+              "node_modules/jquery/dist/jquery.js",
+              "src/assets/js/visualize.js/visualize.js",
+              "node_modules/@qqnluaq/smk/dist/smk.js"
             ]
           },
           "configurations": {
