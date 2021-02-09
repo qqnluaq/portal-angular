@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Directive,
     Injectable,
+    Injector,
     Input,
     OnChanges,
     OnInit,
@@ -103,14 +104,15 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 protected overlay: Overlay,
                 protected cdr: ChangeDetectorRef,
                 protected appConfigService: AppConfigService,
-                protected http: HttpClient) {
+                protected http: HttpClient,
+                protected injector: Injector
+    ) {
+        this.initComponent();
         this.initModels();
         this.initializeConnectionService();
     }
 
-    initComponentPreferences() {
-
-    }
+    initComponent() {}
 
     initializeConnectionService() {
         this.connectionService.monitor().subscribe(isConnected => {
