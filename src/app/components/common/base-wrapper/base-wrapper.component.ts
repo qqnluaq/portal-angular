@@ -66,7 +66,7 @@ export class BaseWrapperComponent implements OnInit, OnChanges, AfterViewInit {
             icon: "menu",
             label: "Menu",
             badge: 0,
-            callBackFunction: this.openSidenav.bind(this)
+            callBackFunction: this.toggleSidenav.bind(this)
         },
     ];
     headerItemsDesktop: PublicAppHeaderActionItem[] = [
@@ -156,7 +156,12 @@ export class BaseWrapperComponent implements OnInit, OnChanges, AfterViewInit {
         }
     }
 
-    openSidenav() {
+    isSidenavOpen() {
+        if ( !this.sidenav ) return false
+        return this.sidenav.opened
+    }
+
+    toggleSidenav() {
         this.sidenav.opened ? this.sidenav.close() : this.sidenav.open();
     }
 
@@ -173,4 +178,6 @@ export class BaseWrapperComponent implements OnInit, OnChanges, AfterViewInit {
         this.isMobileRes = this.applicationStateService.getIsMobileResolution();
         this.cdr.detectChanges();
     }
+
+
 }
