@@ -28,6 +28,7 @@
     "enableCheckToken": true,
     "checkTokenUrl": "dev-config/checkToken-WNEVILLE_TIER2.json"
   },
+  "wfone-portal-rest.url": "https://d1wfapi.vividsolutions.com/wfone-portal-api",
   "geoserver.wms.url": "https://d1wfbs.vividsolutions.com/geoserver/wms",
   "geoserver.wms.extra.url": "https://d1wfbs.vividsolutions.com/geoserver/wms",
   "jasper.url": "https://vs1auth.nrs.gov.bc.ca/int/wfjcrs",
