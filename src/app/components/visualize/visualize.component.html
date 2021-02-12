@@ -1,0 +1,9 @@
+<div class="jaspersoft-report">
+  <div class="jaspersoft-report-toolbar">
+    <button matTooltip="Export to PDF" (click)="exportToPDF()" [hidden]="!isExportFormatSupported('pdf')"><mat-icon>picture_as_pdf</mat-icon></button>
+    <button matTooltip="Export to Excel" (click)="exportToExcel()" [hidden]="!isExportFormatSupported('csv')"><mat-icon>table_chart</mat-icon></button>
+    <button matTooltip="Previous Page" (click)="previousPage()"><mat-icon>navigate_before</mat-icon></button>
+    <button matTooltip="Next Page" (click)="nextPage()"><mat-icon>navigate_next</mat-icon></button>
+  </div>
+  <div [id]="elementId" class="jaspersoft-report-content"></div>
+</div>

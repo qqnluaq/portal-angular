@@ -182,7 +182,7 @@ export class BaseWrapperComponent implements OnInit, OnChanges, AfterViewInit {
                     {
                         icon: "insert_chart_outlined", 
                         label: "Dashboard", 
-                        // routerLink: "/" + ResourcesRoutes., 
+                        routerLink: "/" + ResourcesRoutes.DASHBOARD, 
                         badge: 0
                     }
                 ]

@@ -14,6 +14,7 @@ import { HomeContainerDesktop } from "./containers/home/home-container.component
 import { HomeContainerMobile } from "./containers/home/home-container.component.mobile";
 import { MapPageContainerDesktop } from "./containers/map-page/map-page-container.component.desktop";
 import { MapPageContainerMobile } from "./containers/map-page/map-page-container.component.mobile";
+import { DashboardPageContainerDesktop } from "./containers/dashboard-page/dashboard-page-container.component.desktop";
 
 const LANDING_SCOPES = [[SCOPES_UI.GET_WILDFIRE_RESOURCE, SCOPES_UI.GET_GROUP]];
 
@@ -35,6 +36,13 @@ const routes: Routes = [
     {
         path: ResourcesRoutes.MAP, 
         component: MapPageContainerDesktop, 
+        // data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
+        // pathMatch: "full",
+        canActivate: [ResourcesAuthGuard]
+    },
+    {
+        path: ResourcesRoutes.DASHBOARD, 
+        component: DashboardPageContainerDesktop, 
         // data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
         // pathMatch: "full",
         canActivate: [ResourcesAuthGuard]

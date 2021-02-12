@@ -105,6 +105,7 @@ export enum ResourcesRoutes {
     LANDING = "",
     HOME = "home",
     MAP = "map",
+    DASHBOARD = "dashboard",
     PERSONNEL = "personnel",
     // PERSONNEL_DETAIL = "personnel/detail",
     GROUPS = "groups",

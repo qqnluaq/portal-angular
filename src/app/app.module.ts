@@ -83,6 +83,10 @@ import { MapPageComponentDesktop } from "./components/map-page/desktop/map-page.
 import { MapPageComponentMobile } from "./components/map-page/mobile/map-page.component.mobile";
 import { SERVICES } from "./services";
 import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
+import { DashboardPageContainerDesktop } from "./containers/dashboard-page/dashboard-page-container.component.desktop";
+import { DashboardPageContainerMobile } from "./containers/dashboard-page/dashboard-page-container.component.mobile";
+import { DashboardPageComponentDesktop } from "./components/dashboard-page/desktop/dashboard-page.component.desktop";
+import { VisualizeComponent } from "./components/visualize/visualize.component";
 
 
 /**
@@ -153,6 +157,9 @@ if (!environment.production || !environment.restrict_imports) {
         MapPageContainerDesktop,
         MapPageContainerMobile,
 
+        DashboardPageContainerDesktop,
+        DashboardPageContainerMobile,
+
         AppComponent,
         BaseWrapperComponent,
         // CollectionComponent,
@@ -164,13 +171,17 @@ if (!environment.production || !environment.restrict_imports) {
         MapPageComponentDesktop,
         MapPageComponentMobile,
 
+        DashboardPageComponentDesktop,
+        // DashboardPageComponentMobile,
+
         UnauthorizedPageComponent,
         ErrorPanelComponent,
         WarningPanelComponent,
         ErrorDialogComponent,
         UnsavedDialogComponent,
         SignOutPageComponent,
-        WFMapContainerComponent
+        WFMapContainerComponent,
+        VisualizeComponent
     ],
     imports: [
         HttpClientModule,
