@@ -44,7 +44,7 @@ export class ApplicationStateService {
     public getUserGuid(): string {
         const userDetails = this.getUserDetails();
         if (userDetails) {
-            return userDetails.userGuid;
+            return userDetails.user_guid;
         }
         return null;
     }
@@ -52,7 +52,7 @@ export class ApplicationStateService {
     public getUserId(): string {
         const userDetails = this.getUserDetails();
         if (userDetails) {
-            return userDetails.userId;
+            return userDetails.user_id;
         }
         return null;
     }
@@ -60,7 +60,7 @@ export class ApplicationStateService {
     public getUserType(): string {
         const userDetails = this.getUserDetails();
         if (userDetails) {
-            return userDetails.userType;
+            return userDetails.user_type;
         }
         return null;
     }
@@ -92,7 +92,7 @@ export class ApplicationStateService {
     public getUserSummaryDisplay() {
         const userDetails = this.getUserDetails();
         if (userDetails) {
-            return userDetails.givenName + " " + userDetails.familyName + " - " + userDetails.userId;
+            return userDetails.given_name + " " + userDetails.family_name + " - " + userDetails.user_id;
         }
         return null;
     }
@@ -110,7 +110,7 @@ export class ApplicationStateService {
     public getUserNameDisplay() {
         const userDetails = this.getUserDetails();
         if (userDetails) {
-            return userDetails.givenName + " " + userDetails.familyName;
+            return userDetails.given_name + " " + userDetails.family_name;
         }
         return null;
     }
