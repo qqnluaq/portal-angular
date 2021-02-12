@@ -1,20 +1,20 @@
 @import 'src/styles/variables';
 
-.application-toolbar-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 8px;
-  box-sizing: border-box;
-  background-color: $colour-toolbar-background;
-  z-index: 500;
-}
+// .application-toolbar-header {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 0 8px;
+//   box-sizing: border-box;
+//   background-color: $colour-toolbar-background;
+//   z-index: 500;
+// }
 
-.sticky-header {
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0;
-}
+// .sticky-header {
+//   position: sticky;
+//   position: -webkit-sticky;
+//   top: 0;
+// }
 
 div.title {
   font-size: large;
@@ -27,20 +27,20 @@ div.summary {
   padding-left: 10px;
 }
 
-::ng-deep .action-items-menu {
-  height: fit-content;
+// ::ng-deep .action-items-menu {
+//   height: fit-content;
 
-  button.mat-menu-item {
-    height: auto;
-    line-height: inherit;
-  }
+//   button.mat-menu-item {
+//     height: auto;
+//     line-height: inherit;
+//   }
 
-}
+// }
 
-span.back-route-label {
-  font-size: large;
-  padding-left: 10px;
-}
+// span.back-route-label {
+//   font-size: large;
+//   padding-left: 10px;
+// }
 
 .toolbar-panel {
   margin: 0px 0 !important;
@@ -110,15 +110,15 @@ span.back-route-label {
   }
 }
 
-.sidenav-subheader {
-  margin: 0;
-  padding-bottom: 0;
-  font-weight: normal;
-}
+// .sidenav-subheader {
+//   margin: 0;
+//   padding-bottom: 0;
+//   font-weight: normal;
+// }
 
-.sidenav-submenu {
-  padding-left: 10px;
-}
+// .sidenav-submenu {
+//   padding-left: 10px;
+// }
 
 .wf1-sidenav {
   mat-icon {
@@ -166,4 +166,36 @@ span.back-route-label {
   cursor: pointer;
   z-index: 9999;
   visibility: visible;
+}
+
+mat-sidenav-container {
+  &.desktop-sidenav mat-nav-list {
+    h1, h2 {
+      border-bottom: 6px solid black;
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-bottom: 0;
+      width: calc( 100% - 20px );
+      text-align: center;
+      padding: 0;
+    }
+
+    h1 {
+      // color: red;
+      font-weight: bold;
+      font-size: 2em;
+      // border-bottom: 6px solid black;
+      // margin-left: 10px;
+      // margin-right: 10px;
+      // margin-bottom: 0;
+      // width: calc( 100% - 20px );
+      // text-align: center;
+      // padding: 0;
+    }
+
+    h2 {
+      font-weight: bold;
+      font-size: 1em;
+    }
+  }
 }

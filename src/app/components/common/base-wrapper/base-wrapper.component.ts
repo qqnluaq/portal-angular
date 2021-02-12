@@ -20,12 +20,16 @@ import {MatSidenav} from "@angular/material/sidenav";
 import {SCOPES_UI} from "../../../utils/scopes";
 import scrollIntoView from "scroll-into-view-if-needed";
 import {SecurityUtilService} from "../../../services/security-util.service";
+import { WFONEService } from "src/app/services";
+import { throwMatDialogContentAlreadyAttachedError } from "@angular/material/dialog";
 
 export interface NavItem {
     icon?: any;
+    category?: any;
     svgIcon?: any;
     label: string;
-    routerLink: string;
+    routerLink?: string;
+    externalLink?: string;
     badge: number;
     queryParams?: any;
     disabled?: boolean;
@@ -34,6 +38,16 @@ export interface NavItem {
 export interface ActionItem {
     label: string;
     callBackFunction: Function;
+}
+
+const iconForCategory = {
+    'COSTING':  'request_quote',
+    'ROF':      'local_phone',
+    'RM':       'assignment_ind',
+    'IM':       'local_fire_department',
+    'BI':       'work',
+    'VP':       'person',
+    'RRT':      'analytics'
 }
 
 @Component({
@@ -75,26 +89,38 @@ export class BaseWrapperComponent implements OnInit, OnChanges, AfterViewInit {
     topNavItems = [
     ];
 
-    mainNavItems = [];
-
-    constructor(private router: Router,
-                private applicationStateService: ApplicationStateService,
-                private securityUtilService: SecurityUtilService,
-                private store: Store<RootState>,
-                private cdr: ChangeDetectorRef) {
-
+    navItems = {
+        pages: [],
+        links: [],
     }
 
-    ngOnInit(): void {
-        if (!this.router.url.includes(ResourcesRoutes.SIGN_UP)) {
+    constructor(
+        private router: Router,
+        private applicationStateService: ApplicationStateService,
+        private securityUtilService: SecurityUtilService,
+        private store: Store<RootState>,
+        private cdr: ChangeDetectorRef,
+        private wfoneService: WFONEService
+    ) {}
 
-        }
+    ngOnInit(): void {
+        var self = this
+
+        // if (!this.router.url.includes(ResourcesRoutes.SIGN_UP)) {
+
+        // }
         this.userSummary = this.applicationStateService.getUserSummaryDisplay();
         this.userOrgSummary = "BCWS";
         this.isMobileRes = this.applicationStateService.getIsMobileResolution();
-        this.mainNavItems = this.getNavItems("main");
         this.userNameText = this.applicationStateService.getUserNameDisplay();
         this.userIdText = this.applicationStateService.getUserId();
+        
+        this.getPortalLinks().then( function ( items ) {
+            self.navItems.links = items
+        } );
+        this.getPortalPages().then( function ( items ) {
+            self.navItems.pages = items
+        } );
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -113,39 +139,87 @@ export class BaseWrapperComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
 
-    getNavItems(type?: string): NavItem[] {
-        if (type) {
-            if (type == "main") {
-                return this.getMainNavItems();
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+    // getNavItems(type?: string): NavItem[] {
+    //     if (type) {
+    //         if (type == "main") {
+    //             return this.getMainNavItems();
+    //         } else {
+    //             return null;
+    //         }
+    //     } else {
+    //         return null;
+    //     }
+    // }
+
+    getPortalLinks(): Promise<NavItem[]> {
+        var self = this
+
+        return this.wfoneService.getPortalLinks()
+            .then( function ( links ) {
+                return links.map( function ( lk ) {
+                    return {
+                        category: lk.linkCategory,
+                        icon: self.getIconForCategory( lk.linkCategory ),
+                        label: lk.linkName,
+                        // routerLink: "/" + ResourcesRoutes.RESOURCES, 
+                        externalLink: lk.linkHref,
+                        badge: 0
+                    }
+                } )
+            } )
     }
 
-    getMainNavItems(): NavItem[] {
-        let items = [];
-        items.push({icon: "date_range", label: "My Resource Pool", routerLink: "/" + ResourcesRoutes.RESOURCES, badge: 0});
-        if (this.securityUtilService.hasScope(SCOPES_UI.GET_ASSIGNMENT)) {
-            items.push({icon: "list_alt", label: "Assignments", routerLink: "/" + ResourcesRoutes.ASSIGNMENTS, badge: 0});
-        }
-        if (this.securityUtilService.hasScope(SCOPES_UI.GET_WILDFIRE_RESOURCE)) {
-            items.push({icon: "person", label: "Personnel", routerLink: "/" + ResourcesRoutes.PERSONNEL, badge: 0});
-        }
-        if (this.securityUtilService.hasScope(SCOPES_UI.GET_GROUP)) {
-            items.push({icon: "group", label: "Groups", routerLink: "/" + ResourcesRoutes.GROUPS, badge: 0});
-        }
-
-        //items.push({icon: "format_list_numbered", label: "Rosters", routerLink: "/" + ResourcesRoutes.UNAUTHORIZED, badge: 0, disabled: true});
-        // items.push({icon: "swap_horiz", label: "Assignments", routerLink: "/" + ResourcesRoutes.UNAUTHORIZED, badge: 0, disabled: true});
-
-        return items;
+    getPortalPages(): Promise<NavItem[]> {
+        return Promise.resolve()
+            .then( function () {
+                return [
+                    {
+                        icon: "explore", 
+                        label: "Map", 
+                        routerLink: "/" + ResourcesRoutes.MAP, 
+                        badge: 0
+                    },
+                    {
+                        icon: "insert_chart_outlined", 
+                        label: "Dashboard", 
+                        // routerLink: "/" + ResourcesRoutes., 
+                        badge: 0
+                    }
+                ]
+            } )
     }
 
-    getIcon(icon: string) {
-        return undefined;
+        // let items = [];
+        // items.push({icon: "date_range", label: "My Resource Pool", routerLink: "/" + ResourcesRoutes.RESOURCES, badge: 0});
+        // if (this.securityUtilService.hasScope(SCOPES_UI.GET_ASSIGNMENT)) {
+        //     items.push({icon: "list_alt", label: "Assignments", routerLink: "/" + ResourcesRoutes.ASSIGNMENTS, badge: 0});
+        // }
+        // if (this.securityUtilService.hasScope(SCOPES_UI.GET_WILDFIRE_RESOURCE)) {
+        //     items.push({icon: "person", label: "Personnel", routerLink: "/" + ResourcesRoutes.PERSONNEL, badge: 0});
+        // }
+        // if (this.securityUtilService.hasScope(SCOPES_UI.GET_GROUP)) {
+        //     items.push({icon: "group", label: "Groups", routerLink: "/" + ResourcesRoutes.GROUPS, badge: 0});
+        // }
+
+        // //items.push({icon: "format_list_numbered", label: "Rosters", routerLink: "/" + ResourcesRoutes.UNAUTHORIZED, badge: 0, disabled: true});
+        // // items.push({icon: "swap_horiz", label: "Assignments", routerLink: "/" + ResourcesRoutes.UNAUTHORIZED, badge: 0, disabled: true});
+
+        // return items;
+
+    getIconForCategory( category: string ): string {
+        return iconForCategory[ category ] || category || 'launch';
+    }
+
+    clickNavItem( nav: NavItem ) {
+        if ( nav.routerLink ) {
+            this.router.navigateByUrl( nav.routerLink )
+        }
+        else if ( nav.externalLink ) {
+            window.open( nav.externalLink, 'WFONE_PORTAL_' + nav.category )
+        }
+        else {
+            console.warn( 'no click action for ', nav )
+        }
     }
 
     navigateToBackRoute() {
@@ -181,3 +255,7 @@ export class BaseWrapperComponent implements OnInit, OnChanges, AfterViewInit {
 
 
 }
+
+
+
+

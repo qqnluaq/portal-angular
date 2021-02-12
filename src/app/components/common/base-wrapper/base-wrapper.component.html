@@ -45,18 +45,38 @@
                     <span class="userDataLabel">{{userOrgSummary}}</span>
                 </div>
             </div>
-
+            <!-- [routerLink]="navItem.routerLink" -->
+            <!-- [queryParams]="navItem.queryParams" -->
+            <!-- routerLinkActive="nav-item-active" (click)="isMobileRes?sidenav.close():null;"> -->
             <mat-nav-list>
-                <a mat-list-item *ngFor="let navItem of mainNavItems" [routerLink]="navItem.routerLink"
-                   [disabled]="navItem.disabled"
-                   [queryParams]="navItem.queryParams"
-                   routerLinkActive="nav-item-active" (click)="isMobileRes?sidenav.close():null;">
-                    <mat-icon *ngIf="navItem.svgIcon" class="color-sidenav-icon" [svgIcon]="navItem.svgIcon"></mat-icon>
-                    <mat-icon *ngIf="navItem.icon" class="color-sidenav-icon">{{navItem.icon}}</mat-icon>
-                    <span class="navLabel">{{navItem.label}}</span>
-                    <div *ngIf="navItem.badge > 0" class="navBadge" matBadgeColor="warn"
-                         matBadge="{{navItem.badge}}"></div>
+                <h1>Staff Portal</h1>
+                <a mat-list-item *ngFor="let ni of navItems.pages" 
+                    (click)="clickNavItem( ni )" 
+                    [disabled]="ni.disabled"
+                >
+                    <mat-icon *ngIf="ni.svgIcon" class="color-sidenav-icon" [svgIcon]="ni.svgIcon"></mat-icon>
+                    <mat-icon *ngIf="ni.icon" class="color-sidenav-icon">{{ni.icon}}</mat-icon>
+                    <span class="navLabel">{{ni.label}}</span>
+                    <div *ngIf="ni.badge > 0" class="navBadge" matBadgeColor="warn"
+                         matBadge="{{ni.badge}}"></div>
+                    <mat-icon *ngIf="ni.externalLink" class="sidenav-external">open_in_new</mat-icon>
                 </a>
+
+                <h2>WildfireONE Apps</h2>
+                <a mat-list-item *ngFor="let ni of navItems.links" 
+                    (click)="clickNavItem( ni )" 
+                    [disabled]="ni.disabled"
+                >
+                    <mat-icon *ngIf="ni.svgIcon" class="color-sidenav-icon" [svgIcon]="ni.svgIcon"></mat-icon>
+                    <mat-icon *ngIf="ni.icon" class="color-sidenav-icon">{{ni.icon}}</mat-icon>
+                    <span class="navLabel">{{ni.label}}</span>
+                    <div *ngIf="ni.badge > 0" class="navBadge" matBadgeColor="warn"
+                         matBadge="{{ni.badge}}"></div>
+                    <mat-icon *ngIf="ni.externalLink" class="sidenav-external">open_in_new</mat-icon>
+                </a>
+
+                <h2>Recent Activity</h2>
+
             </mat-nav-list>
 
             <div class="nav-toggle" (click)="toggleSidenav()">

@@ -22,20 +22,20 @@ const routes: Routes = [
         path: ResourcesRoutes.LANDING, 
         redirectTo: ResourcesRoutes.MAP, 
         pathMatch: "full",
-        data: {scopes: LANDING_SCOPES}, 
+        // data: {scopes: LANDING_SCOPES}, 
         canActivate: [ResourcesAuthGuard]
     },
     {
         path: ResourcesRoutes.HOME, 
         component: HomeContainerDesktop, 
-        data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
+        // data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
         // pathMatch: "full",
         canActivate: [ResourcesAuthGuard]
     },
     {
         path: ResourcesRoutes.MAP, 
         component: MapPageContainerDesktop, 
-        data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
+        // data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
         // pathMatch: "full",
         canActivate: [ResourcesAuthGuard]
     },
@@ -50,20 +50,20 @@ const mobile_routes: Routes = [
         path: ResourcesRoutes.LANDING, 
         redirectTo: ResourcesRoutes.MAP, 
         pathMatch: "full",
-        data: {scopes: LANDING_SCOPES}, 
+        // data: {scopes: LANDING_SCOPES}, 
         canActivate: [ResourcesAuthGuard]
     },
     {
         path: ResourcesRoutes.HOME, 
         component: HomeContainerMobile, 
-        data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
+        // data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
         // pathMatch: "full",
         canActivate: [ResourcesAuthGuard]
     },
     {
         path: ResourcesRoutes.MAP, 
         component: MapPageContainerMobile, 
-        data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
+        // data: {scopes: LANDING_SCOPES, shouldDetach: true}, 
         // pathMatch: "full",
         canActivate: [ResourcesAuthGuard]
     },

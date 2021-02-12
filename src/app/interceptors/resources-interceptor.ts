@@ -156,7 +156,12 @@ export class ResourcesInterceptor extends AuthenticationInterceptor implements H
                     break;
                 }
             }
+
+            if ( url.startsWith( config[ 'wfone-portal-rest.url' ] ) )
+                return true
         }
+
+
         return isSecured;
     }
 

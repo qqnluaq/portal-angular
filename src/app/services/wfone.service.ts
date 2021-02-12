@@ -1,10 +1,24 @@
 import { Injectable } from "@angular/core";
-import { ResourceTypes } from "../../resource/wfone/resource.types";
 import { AppConfigService, TokenService } from "@wf1/core-ui";
 
 // Exteral Libraries
 import { Subject } from "rxjs";
 import { UUID } from "angular2-uuid";
+import { HttpClient } from "@angular/common/http";
+
+enum ResourceTypes {
+    CODE_TABLES = "http://common.nrs.gov.bc.ca/v1/codeTables",
+    CODE_HIERARCHIES = "http://common.nrs.gov.bc.ca/v1/codeHierarchies",
+
+    PORTAL_LINKS = "http://wfone.nrs.gov.bc.ca/v1/portalLinkList",
+
+    STATISTICS = "http://wfone.nrs.gov.bc.ca/v1/statistics",
+    COSTING = "http://wfone.nrs.gov.bc.ca/v1/costing",
+
+    SELF = "self",
+    PREV = "prev",
+    NEXT = "next",
+}
 
 @Injectable({
 	providedIn: 'root',
@@ -23,23 +37,26 @@ export class WFONEService {
 	codeTableData: { [table: string]: any };
 
 	private accessToken;
+	private topLevelEndpointsPromise: Promise<any>
 
 	constructor(
-		private tokenService: TokenService
+		private tokenService: TokenService,
+		private appConfig: AppConfigService,
+		private httpClient: HttpClient
 	) { }
 
-	public setOAuthInfo(jwt) {
-		this.accessToken = jwt;
-		try {
-			let jwtComponents: string[] = this.accessToken.split('.');
-			this.tokenDetails = JSON.parse(atob(jwtComponents[1]));
-			this.tokenDetails$.next(this.tokenDetails);
+	// public setOAuthInfo(jwt) {
+	// 	this.accessToken = jwt;
+	// 	try {
+	// 		let jwtComponents: string[] = this.accessToken.split('.');
+	// 		this.tokenDetails = JSON.parse(atob(jwtComponents[1]));
+	// 		this.tokenDetails$.next(this.tokenDetails);
 
-		}
-		catch (e) {
-			this.handleError(e);
-		}
-	}
+	// 	}
+	// 	catch (e) {
+	// 		this.handleError(e);
+	// 	}
+	// }
 
 	public getUserSummaryDisplay() {
 		const userDetails = this.getUserDetails();
@@ -105,9 +122,9 @@ export class WFONEService {
 		return this.tokenDetails;
 	}
 
-	setTopLevelEndpointsUrl(url: string) {
-		this.topLevelEndpointsUrl = url;
-	}
+	// setTopLevelEndpointsUrl(url: string) {
+	// 	this.topLevelEndpointsUrl = url;
+	// }
 
 	handleError(err) {
 		throw err;
@@ -116,165 +133,192 @@ export class WFONEService {
 	// ====================================================================================================
 
 	getTopLevelEndpoints() {
-		return this.request(this.topLevelEndpointsUrl, 'GET').then(result => {
-			console.log(result);
-			return result[0];
-		})
-			.catch((err) => {
-				if (!err) {
-					err = 'Failed to get Top Level';
-				}
-				throw err;
-			}
-			);
-	}
+		var self = this
+
+		if ( !this.topLevelEndpointsPromise )
+			this.topLevelEndpointsPromise = this.appConfig.loadAppConfig()
+				.then( function () {
+					return self.httpClient.get( self.appConfig.getConfig()[ 'wfone-portal-rest.url' ] ).toPromise()
+				} )
+				.then( function ( resp ) {
+					console.log( resp )
+					return resp
+				} )
+
+		return this.topLevelEndpointsPromise
+   }
 
 	// ====================================================================================================
 
-	getCodeTables(codeTableName) {
-		let queryParams = { "codeTableName": codeTableName };
+	// getCodeTables(codeTableName) {
+	// 	let queryParams = { "codeTableName": codeTableName };
 
-		return this.getTopLevelEndpoints().then(
-			(topLevel) => this.process(ResourceTypes.CODE_TABLES, topLevel, null, queryParams).then(data => data[0])
-		);
-	}
+	// 	return this.getTopLevelEndpoints().then(
+	// 		(topLevel) => this.process(ResourceTypes.CODE_TABLES, topLevel, null, queryParams).then(data => data[0])
+	// 	);
+	// }
 
-	getCodeHierarchies(codeHierarchyName) {
-		let queryParams = { "codeHierarchyName": codeHierarchyName };
+	// getCodeHierarchies(codeHierarchyName) {
+	// 	let queryParams = { "codeHierarchyName": codeHierarchyName };
 
-		return this.getTopLevelEndpoints().then(
-			(topLevel) => this.process(ResourceTypes.CODE_HIERARCHIES, topLevel, null, queryParams).then(data => data[0])
-		);
-	}
+	// 	return this.getTopLevelEndpoints().then(
+	// 		(topLevel) => this.process(ResourceTypes.CODE_HIERARCHIES, topLevel, null, queryParams).then(data => data[0])
+	// 	);
+	// }
 
 	// ====================================================================================================
 
 	getPortalLinks() {
-		return this.getTopLevelEndpoints().then(
-			topLevel => this.process(ResourceTypes.PORTAL_LINKS, topLevel).then(data => data[0])
-		);
+		return this.getResource( ResourceTypes.PORTAL_LINKS, this.getTopLevelEndpoints() )
+			.then( function ( resp ) {
+				console.log( resp )
+				return resp.collection
+			} )
+		// return this.getTopLevelEndpoints().then(
+		// 	topLevel => this.process(ResourceTypes.PORTAL_LINKS, topLevel).then(data => data[0])
+		// );
 	}
 
-	getStatistics(reportDate: Date) {
-		let queryParams = {
-			"reportDate": reportDate ? reportDate.getTime() : null
-		};
+	// getStatistics(reportDate: Date) {
+	// 	let queryParams = {
+	// 		"reportDate": reportDate ? reportDate.getTime() : null
+	// 	};
 
-		return this.getTopLevelEndpoints().then(
-			topLevel => this.process(ResourceTypes.STATISTICS, topLevel, null, queryParams).then(data => data[0])
-		);
-	}
+	// 	return this.getTopLevelEndpoints().then(
+	// 		topLevel => this.process(ResourceTypes.STATISTICS, topLevel, null, queryParams).then(data => data[0])
+	// 	);
+	// }
 
-	getCostingData(reportDate: Date) {
-		let queryParams = {
-			"reportDate": reportDate ? reportDate.getTime() : null
-		};
+	// getCostingData(reportDate: Date) {
+	// 	let queryParams = {
+	// 		"reportDate": reportDate ? reportDate.getTime() : null
+	// 	};
 
-		return this.getTopLevelEndpoints().then(
-			topLevel => this.process(ResourceTypes.COSTING, topLevel, null, queryParams).then(data => data[0])
-		);
-	}
+	// 	return this.getTopLevelEndpoints().then(
+	// 		topLevel => this.process(ResourceTypes.COSTING, topLevel, null, queryParams).then(data => data[0])
+	// 	);
+	// }
 
 
 	// ====================================================================================================
 
 
-	process(resourceType, parentResource, resource?, queryParams?, headers?) {
-		console.log(resourceType, parentResource);
-		let foundOperation = false;
-		return new Promise((resolve, reject) => {
-			if (parentResource && parentResource.links) {
-				parentResource.links.forEach(link => {
-					if (link['rel'] === resourceType) {
-						foundOperation = true;
-						this.request(link['href'], link['method'], resource, queryParams, headers).then(
-							result => resolve(result),
-							error => reject(error)
-						)
-							.catch(error => reject(error));
-					}
-				});
+	getResource( type: ResourceTypes, parent ) {
+		var self = this
 
-				if (!foundOperation) {
-					reject({ error: 'Unsupported Operation ' + resourceType });
-				}
-			}
-		});
+		return Promise.resolve( parent )
+			.then( function ( parentResource ) {
+				if ( !parentResource.links ) throw new Error( 'Unsupported Operation' )
+				
+				var matchedLinks = parentResource.links.filter( function ( lk ) {
+					return lk.rel == type
+				} )
+				if ( matchedLinks.length != 1 ) throw new Error( 'Unsupported Operation: ' + type )
+
+				var url = matchedLinks[ 0 ].href,
+					method = matchedLinks[ 0 ].method.toLowerCase()
+
+				return self.httpClient[ method ]( url ).toPromise()
+			} )
 	}
 
-	buildUrlWithQueryParamString(url, queryParams) {
-		if (queryParams) {
-			if (url.indexOf('?') === -1) {
-				url = url.concat('?');
-			}
-			else {
-				url = url.substr(0, url.indexOf('?') + 1);
-			}
 
-			for (let k in queryParams) {
-				if (queryParams.hasOwnProperty(k) && queryParams[k]) {
-					url = url.concat(k).concat('=').concat(queryParams[k]).concat('&');
-				}
-			}
-		}
+	// process(resourceType, parentResource, resource?, queryParams?, headers?) {
+	// 	console.log(resourceType, parentResource);
+	// 	let foundOperation = false;
+	// 	return new Promise((resolve, reject) => {
+	// 		if (parentResource && parentResource.links) {
+	// 			parentResource.links.forEach(link => {
+	// 				if (link['rel'] === resourceType) {
+	// 					foundOperation = true;
+	// 					this.request(link['href'], link['method'], resource, queryParams, headers).then(
+	// 						result => resolve(result),
+	// 						error => reject(error)
+	// 					)
+	// 						.catch(error => reject(error));
+	// 				}
+	// 			});
 
-		return url;
-	}
+	// 			if (!foundOperation) {
+	// 				reject({ error: 'Unsupported Operation ' + resourceType });
+	// 			}
+	// 		}
+	// 	});
+	// }
 
-	request(url, method, resource?, queryParams?, additionalHeaders?) {
-		if (!queryParams) {
-			queryParams = {};
-		}
-		Object.assign(queryParams, { "nocache": new Date().getTime() });
+	// buildUrlWithQueryParamString(url, queryParams) {
+	// 	if (queryParams) {
+	// 		if (url.indexOf('?') === -1) {
+	// 			url = url.concat('?');
+	// 		}
+	// 		else {
+	// 			url = url.substr(0, url.indexOf('?') + 1);
+	// 		}
 
-		url = this.buildUrlWithQueryParamString(url, queryParams);
+	// 		for (let k in queryParams) {
+	// 			if (queryParams.hasOwnProperty(k) && queryParams[k]) {
+	// 				url = url.concat(k).concat('=').concat(queryParams[k]).concat('&');
+	// 			}
+	// 		}
+	// 	}
 
-		let requestId = "WFONEUI" + UUID.UUID().replace(/-/g, '').toUpperCase();
+	// 	return url;
+	// }
 
-		console.log('<request ( ' + requestId + ' )' + url);
+	// request(url, method, resource?, queryParams?, additionalHeaders?) {
+	// 	if (!queryParams) {
+	// 		queryParams = {};
+	// 	}
+	// 	Object.assign(queryParams, { "nocache": new Date().getTime() });
 
-		return new Promise((resolve, reject) => {
-			const xhr = new XMLHttpRequest();
+	// 	url = this.buildUrlWithQueryParamString(url, queryParams);
 
-			xhr.open(method, url);
+	// 	let requestId = "WFONEUI" + UUID.UUID().replace(/-/g, '').toUpperCase();
 
-			let headers = {
-				"Authorization": "Bearer " + this.accessToken,
-				"Rest-Version": this.restVersion,
-				"Accept": "application/json",
-				"Content-type": "application/json",
-				"requestId": requestId
-			};
+	// 	console.log('<request ( ' + requestId + ' )' + url);
 
-			Object.assign(headers, additionalHeaders);
+	// 	return new Promise((resolve, reject) => {
+	// 		const xhr = new XMLHttpRequest();
 
-			for (let header in headers) {
-				xhr.setRequestHeader(header, headers[header]);
-			}
+	// 		xhr.open(method, url);
 
-			xhr.onload = () => {
-				let response = [null, xhr];
-				if (xhr.responseText) {
-					response = [JSON.parse(xhr.responseText), xhr];
-				}
+	// 		let headers = {
+	// 			"Authorization": "Bearer " + this.accessToken,
+	// 			"Rest-Version": this.restVersion,
+	// 			"Accept": "application/json",
+	// 			"Content-type": "application/json",
+	// 			"requestId": requestId
+	// 		};
 
-				if (xhr.readyState == 4 && xhr.status >= 400) {
-					console.log('Error: ' + requestId);
-					reject(response);
-				}
-				resolve(response);
-			};
+	// 		Object.assign(headers, additionalHeaders);
 
-			xhr.onerror = () => reject(xhr.statusText);
+	// 		for (let header in headers) {
+	// 			xhr.setRequestHeader(header, headers[header]);
+	// 		}
 
-			if (resource) {
-				xhr.send(JSON.stringify(resource));
-			}
-			else {
-				xhr.send();
-			}
-		});
-	}
+	// 		xhr.onload = () => {
+	// 			let response = [null, xhr];
+	// 			if (xhr.responseText) {
+	// 				response = [JSON.parse(xhr.responseText), xhr];
+	// 			}
+
+	// 			if (xhr.readyState == 4 && xhr.status >= 400) {
+	// 				console.log('Error: ' + requestId);
+	// 				reject(response);
+	// 			}
+	// 			resolve(response);
+	// 		};
+
+	// 		xhr.onerror = () => reject(xhr.statusText);
+
+	// 		if (resource) {
+	// 			xhr.send(JSON.stringify(resource));
+	// 		}
+	// 		else {
+	// 			xhr.send();
+	// 		}
+	// 	});
+	// }
 }
 
 
